@@ -25,9 +25,16 @@
           'xcode_settings': {
             'MACOSX_DEPLOYMENT_TARGET': '10.9',
           },
+        }],
+        ['OS == "win"', {
+          "msvs_settings": {
+            "VCCLCompilerTool": {
+              "AdditionalOptions": [ "-std:c++17", ],
+            },
+          },
         }]
       ],
-      "cflags": [
+      "cflags_cc": [
         "-std=c++17",
       ],
       'xcode_settings': {
