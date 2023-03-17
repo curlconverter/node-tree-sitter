@@ -29,7 +29,7 @@
         ['OS == "win"', {
           "msbuild_settings": {
             "ClCompile": {
-              "LanguageStandard": "stdcpp17"
+              "LanguageStandard": "/std:c++17"
             }
           }
         }]
