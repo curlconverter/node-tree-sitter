@@ -29,7 +29,7 @@
         ['OS == "win"', {
           "msvs_settings": {
             "VCCLCompilerTool": {
-              "AdditionalOptions": [ "-std:c++17", ],
+              "AdditionalOptions": [ "/std:c++17", ],
             },
           },
         }]
