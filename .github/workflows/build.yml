@@ -86,7 +86,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
       - name: Update node-gyp
         if: ${{ matrix.os == 'windows-latest' && matrix.node == '14' }}
         run: |
