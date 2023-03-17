@@ -27,11 +27,11 @@
           },
         }],
         ['OS == "win"', {
-          "msvs_settings": {
-            "VCCLCompilerTool": {
-              "AdditionalOptions": [ "/std:c++17", ],
-            },
-          },
+          "msbuild_settings": {
+            "ClCompile": {
+              "LanguageStandard": "stdcpp17"
+            }
+          }
         }]
       ],
       "cflags_cc": [
