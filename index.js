@@ -1,9 +1,9 @@
 let binding;
 try {
-  binding = require('./build/Release/tree_sitter_runtime_binding');
+  binding = require('./build/Release/tree_sitter_runtime_binding.node');
 } catch (e) {
   try {
-    binding = require('./build/Debug/tree_sitter_runtime_binding');
+    binding = require('./build/Debug/tree_sitter_runtime_binding.node');
   } catch (_) {
     throw e;
   }

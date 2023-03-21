@@ -1,4 +1,4 @@
-declare module "tree-sitter" {
+declare module "@curlconverter/tree-sitter" {
   class Parser {
     parse(input: string | Parser.Input | Parser.InputReader, oldTree?: Parser.Tree, options?: { bufferSize?: number, includedRanges?: Parser.Range[] }): Parser.Tree;
     parseTextBuffer(buffer: Parser.TextBuffer, oldTree?: Parser.Tree, options?: { syncTimeoutMicros?: number, includedRanges?: Parser.Range[] }): Parser.Tree | Promise<Parser.Tree>;
