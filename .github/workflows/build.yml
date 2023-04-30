@@ -24,12 +24,6 @@ jobs:
           - 14
           - 16
           - 18
-        # These fail with a useless error message
-        exclude:
-          - os: windows-latest
-            node: 16
-          - os: windows-latest
-            node: 18
       fail-fast: false
     name: Testing Node ${{ matrix.node }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -41,7 +35,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-      - name: Update node-gyp
+      - name: Update node-gyp for Node 14
         if: ${{ matrix.os == 'windows-latest' && matrix.node == '14' }}
         run: |
           $WhereNode = Get-Command node | Select-Object -ExpandProperty Definition
@@ -49,8 +43,40 @@ jobs:
           $NodeModulesPath = $NodeDirPath + "\node_modules\npm\node_modules\npm-lifecycle"
           cd $NodeModulesPath
           npm install node-gyp@9.x
+      - name: Update node-gyp for Node 16 or 18
+        if: ${{ matrix.os == 'windows-latest' && ( matrix.node == '16' || matrix.node == '18' ) }}
+        shell: powershell
+        run: |
+          npm install --global node-gyp@latest
+
       - run: npm install
       - run: npm test
+
+  prebuild-test:
+    strategy:
+      matrix:
+        os_and_node:
+          # - { os: "ubuntu-latest", node: "18" }
+          # - { os: "macos-latest", node: "18" }
+          - { os: "windows-latest", node: "18" }
+      fail-fast: false
+    name: Prebuild on ${{ matrix.os_and_node.os }}
+    runs-on: ${{ matrix.os_and_node.os }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.os_and_node.node }}
+      - run: npm install --ignore-scripts
+      - run: npx --no-install prebuild -r node -t 14.0.0 -t 16.0.0 -t 18.0.0 -t 20.0.0
+      - run: npx --no-install prebuild -r electron -t 22.0.0 -t 23.0.0 -t 24.0.0
+      - if: matrix.os_and_node.os == 'macos-latest'
+        run:
+          npx --no-install prebuild -r node -t 14.0.0 -t 16.0.0 -t 18.0.0 -t 20.0.0 --arch arm64
+          npx --no-install prebuild -r electron -t 22.0.0 -t 23.0.0 -t 24.0.0 --arch arm64
 
   publish:
     if: ${{ github.event_name == 'release' }}
